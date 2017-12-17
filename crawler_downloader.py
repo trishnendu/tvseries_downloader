@@ -4,9 +4,10 @@ import sys, os, time
 import shutil
 
 #outfile = open("links.txt",'wb')
-media = ["mkv","MKV","MP4","mp4"]
+media = ["txt","mkv","MKV","MP4","mp4"]
 quality = "720p"
 chunk_size = 256*1024   
+searchterm = "Better Call Saul"
 
 class http_response_message:
     def __init__(self, response):
@@ -88,11 +89,16 @@ def crawler(url, download_content = False, crawl_depth = float('inf')):
     dom = lxml.html.fromstring(website.read())
     links = []
     for link in dom.xpath('//a/@href'):
-        if ".." not in link:
+        if ".." not in link and "?" not in link:
             links.append(link)
     for link in links:
         crawler(url+link, download_content = download_content, crawl_depth = crawl_depth - 1)
     if(download_content): os.chdir("..")
 
-os.chdir(os.path.join(os.getcwd(),"Dexter"))    
-crawler("http://fastdownloadhub.com/Serial/Dexter/S02/", download_content = True)
+'''
+rootdir = os.path.join(os.getcwd(), searchterm)
+if not(os.path.exists(rootdir)):
+    os.makedirs(rootdir)
+os.chdir(rootdir)    
+'''
+crawler("http://s1.bia2-dl.xyz/Movies/India%20Movies/Grand Masti 2013 720p HDRip (Bia2Movies).mkv", download_content = True)
